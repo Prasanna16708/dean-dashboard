@@ -1,5 +1,7 @@
 import { Sidebar } from '@/components/layout/Sidebar';
 
+export const dynamic = 'force-dynamic';
+
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen bg-smoke-white dark:bg-[#0a0a0a]">
