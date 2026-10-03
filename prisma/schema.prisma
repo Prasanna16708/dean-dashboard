@@ -1,0 +1,175 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime   @default(now())
+  AuditLogs    AuditLog[]
+}
+
+model Department {
+  id             String       @id @default(uuid())
+  name           String       @unique
+  headOfDept     String?
+  students       Student[]
+  staff          Staff[]
+  subjects       Subject[]
+  classNotes     ClassNote[]
+}
+
+model Student {
+  id                 String               @id @default(uuid())
+  registerNumber     String               @unique
+  name               String
+  departmentId       String
+  batch              String               
+  currentYear        String               
+  email              String?
+  phone              String?
+  parentName         String?
+  parentPhone        String?
+  dateOfBirth        DateTime?
+  gender             String?
+  address            String?
+  status             String               @default("Active") 
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+
+  department         Department           @relation(fields: [departmentId], references: [id])
+  attendances        StudentAttendance[]
+  disciplinary       DisciplinaryAction[]
+}
+
+model Staff {
+  id               String            @id @default(uuid())
+  staffId          String            @unique
+  name             String
+  departmentId     String
+  designation      String
+  email            String?
+  phone            String?
+  dateOfJoining    DateTime?
+  gender           String?
+  address          String?
+  status           String            @default("Active")
+
+  department       Department        @relation(fields: [departmentId], references: [id])
+  attendances      StaffAttendance[]
+  documents        FacultyDocument[]
+  timetables       FacultyTimetable[]
+}
+
+model Subject {
+  id           String      @id @default(uuid())
+  code         String      @unique
+  name         String
+  departmentId String
+  year         String
+  semester     Int
+  department   Department  @relation(fields: [departmentId], references: [id])
+  notes        ClassNote[]
+}
+
+model ClassNote {
+  id           String      @id @default(uuid())
+  name         String
+  description  String?
+  staffName    String?
+  fileUrl      String
+  fileSize     Int
+  mimeType     String
+  subjectId    String
+  departmentId String
+  batch        String
+  year         String
+  uploadedAt   DateTime    @default(now())
+
+  subject      Subject     @relation(fields: [subjectId], references: [id])
+  department   Department  @relation(fields: [departmentId], references: [id])
+  access       NoteAccess[]
+}
+
+model NoteAccess {
+  id          String    @id @default(uuid())
+  noteId      String
+  targetType  String    
+  targetId    String
+  note        ClassNote @relation(fields: [noteId], references: [id], onDelete: Cascade)
+}
+
+model StudentAttendance {
+  id        String   @id @default(uuid())
+  studentId String
+  date      DateTime
+  status    String   
+  student   Student  @relation(fields: [studentId], references: [id])
+  
+  @@unique([studentId, date])
+}
+
+model StaffAttendance {
+  id        String   @id @default(uuid())
+  staffId   String
+  date      DateTime
+  status    String   
+  staff     Staff    @relation(fields: [staffId], references: [id])
+
+  @@unique([staffId, date])
+}
+
+model DisciplinaryAction {
+  id          String   @id @default(uuid())
+  studentId   String
+  date        DateTime
+  reason      String
+  actionTaken String
+  student     Student  @relation(fields: [studentId], references: [id])
+}
+
+model FacultyDocument {
+  id         String   @id @default(uuid())
+  staffId    String
+  name       String
+  fileUrl    String
+  uploadedAt DateTime @default(now())
+  staff      Staff    @relation(fields: [staffId], references: [id])
+}
+
+model FacultyTimetable {
+  id           String   @id @default(uuid())
+  staffId      String
+  version      Int      @default(1)
+  fileUrl      String?  @default("")
+  scheduleData String?
+  uploadedAt   DateTime @default(now())
+  staff        Staff    @relation(fields: [staffId], references: [id])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  adminId    String
+  action     String
+  entity     String
+  entityId   String?
+  metadata   String?  
+  timestamp  DateTime @default(now())
+  admin      Admin    @relation(fields: [adminId], references: [id])
+}
+
+model BackupMetadata {
+  id         String   @id @default(uuid())
+  filename   String
+  size       Int
+  type       String   
+  status     String   
+  createdAt  DateTime @default(now())
+}
