@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { CheckCircle2, XCircle, Users, UserCheck, Upload, Calendar } from 'lucide-react';

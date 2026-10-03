@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { DisciplinaryTable, DisciplinaryRow } from '@/components/dashboard/DisciplinaryTable';
@@ -48,4 +47,4 @@ export default async function DisciplinaryPage() {
       <DisciplinaryTable initialActions={actions} />
     </div>
   );
-}
+}

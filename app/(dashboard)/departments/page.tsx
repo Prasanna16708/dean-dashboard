@@ -1,4 +1,3 @@
-export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import { DepartmentsView, DepartmentRow } from '@/components/dashboard/DepartmentsView';
 
@@ -25,4 +24,4 @@ export default async function DepartmentsPage() {
       <DepartmentsView initialDepartments={formattedData} />
     </div>
   );
-}
+}

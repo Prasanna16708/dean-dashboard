@@ -1,8 +1,5 @@
-export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import { BackupsTable, BackupRow } from '@/components/dashboard/BackupsTable';
-
-export const dynamic = 'force-dynamic';
 
 export default async function BackupsPage() {
   const rawBackups = await prisma.backupMetadata.findMany({
