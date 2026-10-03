@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { StudentsTable, StudentRow } from '@/components/dashboard/StudentsTable';
@@ -88,4 +89,4 @@ export default async function StudentsPage({
       />
     </div>
   );
-}
+}

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { DocumentsTable, DocumentRow } from '@/components/dashboard/DocumentsTable';
@@ -42,4 +43,4 @@ export default async function FacultyDocumentsPage() {
       <DocumentsTable initialDocs={rows} />
     </div>
   );
-}
+}

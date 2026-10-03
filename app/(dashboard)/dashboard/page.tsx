@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import prisma from '@/lib/prisma';
 import WelcomeHeader from '@/components/dashboard/WelcomeHeader';
 import Link from 'next/link';
